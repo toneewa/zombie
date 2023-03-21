@@ -12,10 +12,16 @@ void display(vector<vector<int> >& terain);
 bool movezombies(vector<vector<int> >& plain);
 bool smartmovezombies(vector<vector<int> >& plain);
 bool play(int nrz, int nrholes, vector<vector <int> >& plain);
-
+int map();
 int main()
 {
-    srand(time(NULL));
+    map();
+    return 0;
+}
+
+int map()
+{
+    srand((unsigned int)time(NULL));
     vector<vector<int> > vectx;
     //initialise the vector
     vectx.resize(10);
@@ -27,7 +33,7 @@ int main()
     //convention : hole number is 3 , zombie number is 2, and human number is 1;
     //ask for nr of houls
     int nrholes;
-    cout << "number of holes(0 for random) : ";
+    cout << "number of houls(0 for random) : ";
     cin >> nrholes;
     //if type 0 , then the nr of houls is generated automaticaly
     if (!nrholes)
@@ -39,16 +45,14 @@ int main()
 
     for (int i = 0; i < nrholes;)
     {
-        int xhol = rand() % 10;
-        int yhol = rand() % 10;
+        int xhol = rand() % 9;
+        int yhol = rand() % 9;
         if (vectx.at(xhol).at(yhol) == 0)
         {
             vectx.at(xhol).at(yhol) = 3;
             i++;
         }
-
     }
-
     //ask for nr of zombies
     int nrzombies;
     cout << "number of zombies(0 for random) : ";
@@ -56,12 +60,12 @@ int main()
     //if nr is 0, then is generated automaticaly
     if (!nrzombies)
     {
-        nrzombies = (rand() % 9) + 1;
+        nrzombies = (rand() %  9) + 1;
     }
     for (int i = 0; i < nrzombies;)
     {
-        int xhol = rand() % 10;
-        int yhol = rand() % 10;
+        int xhol = rand() %  9;
+        int yhol = rand() %  9;
         if (vectx.at(xhol).at(yhol) == 0)
         {
             vectx.at(xhol).at(yhol) = 2;
@@ -72,8 +76,8 @@ int main()
     cout << "now we place the man";
     for (;;)
     {
-        int xhol = rand() % 10;
-        int yhol = rand() % 10;
+        int xhol = rand() %  9;
+        int yhol = rand() %  9;
         if (vectx.at(xhol).at(yhol) == 0)
         {
             vectx.at(xhol).at(yhol) = 1;
@@ -293,7 +297,7 @@ bool movehuman(vector<vector<int> >& plain)
     char move;
     bool dead{};
     bool pmove = false;
-    int x = 0, y = 0;
+    size_t x = 0, y = 0;
     for (size_t i = 0; i < plain.size(); i++)
         for (size_t j = 0; j < plain[i].size(); j++)
         {
@@ -304,82 +308,84 @@ bool movehuman(vector<vector<int> >& plain)
             }
 
         }
-    while(1){
-    while (!pmove)
-    {
-        system("cls");
-        display(plain);
-        cout << "move human (2=down,8=up,4=left,6=right): ";
-        cin >> move;
-        cout << move;
-        if (move == 52)
+   
+        while (!pmove)
         {
-            if (y > 0)
+            system("cls");
+            display(plain);
+            cout << "move human (2=down,8=up,4=left,6=right): ";
+            cin >> move;
+            cout << move << " ";
+
+            if (move == 52)
             {
-                if ((plain[x][y - 1] == 3) || (plain[x][y - 1] == 2))
+                if (y > 0)
                 {
-                    cout << "is mort acuma2";
-                    Sleep(2000);
-                    dead = true;
-                    //  return dead;
+                    if ((plain[x][y - 1] == 3) || (plain[x][y - 1] == 2))
+                    {
+                        cout << "is mort acuma2";
+                        Sleep(2000);
+                        dead = true;
+                        //  return dead;
+                    }
+                    plain[x][y] = 0;
+                    plain[x][y - 1] = 1;
+                    y--;
+                    pmove = true;
                 }
-                plain[x][y] = 0;
-                plain[x][y - 1] = 1;
-                y--;
-                pmove = true;
+
             }
 
-        }
-
-        if (move == 54)
-        {
-            if (y < 9)
+            if (move == 54)
             {
-                if ((plain[x][y + 1] == 3) || (plain[x][y + 1] == 2))
+                if (y < 9)
                 {
-                    return true;
+                    if ((plain[x][y + 1] == 3) || (plain[x][y + 1] == 2))
+                    {
+                        return true;
+                    }
+                    plain[x][y] = 0;
+                    plain[x][y + 1] = 1;
+                    y++;
+                    pmove = true;
                 }
-                plain[x][y] = 0;
-                plain[x][y + 1] = 1;
-                y++;
-                pmove = true;
+
+            }
+            if (move == 56)
+            {
+                if (x > 0)
+                {
+                    if ((plain[x - 1][y] == 3) || (plain[x - 1][y] == 2))
+                    {
+                        return true;
+                    }
+                    plain[x][y] = 0;
+                    plain[x - 1][y] = 1;
+                    x--;
+                    pmove = true;
+                }
+
             }
 
-        }
-        if (move == 56)
-        {
-            if (x > 0)
+            if (move == 50)
             {
-                if ((plain[x - 1][y] == 3) || (plain[x - 1][y] == 2))
+                if (x < 9)
                 {
-                    return true;
+                    if ((plain[x + 1][y] == 3) || (plain[x + 1][y] == 2))
+                    {
+                        return true;
+                    }
+                    plain[x][y] = 0;
+                    plain[x + 1][y] = 1;
+                    x++;
+                    pmove = true;
                 }
-                plain[x][y] = 0;
-                plain[x - 1][y] = 1;
-                x--;
-                pmove = true;
-            }
 
+            }
         }
 
-        if (move == 50)
-        {
-            if (x < 9)
-            {
-                if ((plain[x + 1][y] == 3) || (plain[x + 1][y] == 2))
-                {
-                    return true;
-                }
-                plain[x][y] = 0;
-                plain[x + 1][y] = 1;
-                x++;
-                pmove = true;
-            }
-
-        }
-    }
-    return dead;
-}
+        return dead; 
+  
 }
 bool smartmovezombies(vector<vector<int> >& plain)
 {
@@ -397,6 +403,7 @@ bool smartmovezombies(vector<vector<int> >& plain)
             {
                 x = i;
                 y = j;
+               
                 break;
             }
         }
@@ -531,24 +538,29 @@ bool smartmovezombies(vector<vector<int> >& plain)
                     }
 
                 }
-
-                if ((plain[i - 1][j] == 1) || (plain[i + 1][j] == 1) || (plain[i][j + 1] == 1) || (plain[i][j - 1] == 1))
+                if (i > 0 && i < plain.size() - 1 && j > 0 && j < plain[i].size() - 1)
                 {
-                    return true;
+                    if ((plain[i - 1][j] == 1) || (plain[i + 1][j] == 1) || (plain[i][j + 1] == 1) || (plain[i][j - 1] == 1))
+                    {
+                        return true;
+                    }
                 }
+
+       
             }
 
         }
     for (size_t i = 0; i < plain.size(); i++)
         for (size_t j = 0; j < plain[i].size(); j++)
         {
-            if (plain[i][j] = 5)
+            if (plain[i][j] == 5)
                 plain[i][j] = 2;
 
         }
     return false;
 
 }
+
 bool play(int nrz, int nrholes, vector<vector<int> >& plain)
 {
     bool dead, endgame;
@@ -556,18 +568,23 @@ bool play(int nrz, int nrholes, vector<vector<int> >& plain)
     dead = false;
     while (true)
     {
+        display(plain);
         endgame = smartmovezombies(plain);
         dead = movehuman(plain);
         nrz = nrzombies(plain);
         if (dead = true)
-        {
-            cout << "human dead";
-            exit(1);
+        { 
+       //   display(plain);          
+       //    cout << " - human dead :(";
+        Sleep(2000);
+       //     map();
         }
         if (nrz == 0)
         {
-            cout << "human win";
-            exit(1);
+            display(plain);
+            std::cout << " - human wins!" << std::endl;
+            Sleep(2000);
+            map(); // new game parameters
         }
     }
     return true;
