@@ -13,9 +13,10 @@ bool movezombies(vector<vector<int> >& plain);
 bool smartmovezombies(vector<vector<int> >& plain);
 bool play(int nrz, int nrholes, vector<vector <int> >& plain);
 int map();
+
 int main()
 {
-    map();
+    map(); // set new game parameters
     return 0;
 }
 
@@ -153,7 +154,6 @@ bool movezombies(vector<vector<int> >& plain)
         for (size_t j = 0; j < plain[i].size(); j++)
         {
             //make sure that all the zombie moves
-
             if (plain[i][j] == 2)
             {
                 zombiemove = false;
@@ -218,7 +218,6 @@ bool movezombies(vector<vector<int> >& plain)
                                 plain[i + 1][j] = 5;
                                 zombiemove = true;
                                 //break;
-
                             }
                         }
                     }
@@ -306,12 +305,11 @@ bool movehuman(vector<vector<int> >& plain)
                 x = i;
                 y = j;
             }
-
         }
    
         while (!pmove)
         {
-            system("cls");
+       //     system("cls");
             display(plain);
             cout << "move human (2=down,8=up,4=left,6=right): ";
             cin >> move;
@@ -323,7 +321,7 @@ bool movehuman(vector<vector<int> >& plain)
                 {
                     if ((plain[x][y - 1] == 3) || (plain[x][y - 1] == 2))
                     {
-                        cout << "is mort acuma2";
+                        cout << "killing enemy!";
                         Sleep(2000);
                         dead = true;
                         //  return dead;
@@ -333,7 +331,6 @@ bool movehuman(vector<vector<int> >& plain)
                     y--;
                     pmove = true;
                 }
-
             }
 
             if (move == 54)
@@ -349,7 +346,6 @@ bool movehuman(vector<vector<int> >& plain)
                     y++;
                     pmove = true;
                 }
-
             }
             if (move == 56)
             {
@@ -364,7 +360,6 @@ bool movehuman(vector<vector<int> >& plain)
                     x--;
                     pmove = true;
                 }
-
             }
 
             if (move == 50)
@@ -380,13 +375,11 @@ bool movehuman(vector<vector<int> >& plain)
                     x++;
                     pmove = true;
                 }
-
             }
         }
-
         return dead; 
-  
 }
+
 bool smartmovezombies(vector<vector<int> >& plain)
 {
 
@@ -441,9 +434,7 @@ bool smartmovezombies(vector<vector<int> >& plain)
                                 plain[i][j - 1] = 5;
                             }
                         }
-
                     }
-
                 }
 
                 if ((i < x) && (j < y))
@@ -472,9 +463,7 @@ bool smartmovezombies(vector<vector<int> >& plain)
                                 plain[i][j + 1] = 5;
                             }
                         }
-
                     }
-
                 }
 
                 if ((i < x) && (j > y))
@@ -490,7 +479,6 @@ bool smartmovezombies(vector<vector<int> >& plain)
                                 plain[i + 1][j] = 5;
                             }
                         }
-
                     else
                     {
                         if (plain[i][j - 1] == 2)
@@ -503,9 +491,7 @@ bool smartmovezombies(vector<vector<int> >& plain)
                                 plain[i][j - 1] = 5;
                             }
                         }
-
                     }
-
                 }
 
                 if ((i > x) && (j < y))
@@ -521,7 +507,6 @@ bool smartmovezombies(vector<vector<int> >& plain)
                                 plain[i - 1][j] = 5;
                             }
                         }
-
                     else
                     {
                         if (plain[i][j + 1] == 2)
@@ -534,9 +519,7 @@ bool smartmovezombies(vector<vector<int> >& plain)
                                 plain[i][j + 1] = 5;
                             }
                         }
-
                     }
-
                 }
                 if (i > 0 && i < plain.size() - 1 && j > 0 && j < plain[i].size() - 1)
                 {
@@ -545,20 +528,15 @@ bool smartmovezombies(vector<vector<int> >& plain)
                         return true;
                     }
                 }
-
-       
             }
-
         }
     for (size_t i = 0; i < plain.size(); i++)
         for (size_t j = 0; j < plain[i].size(); j++)
         {
             if (plain[i][j] == 5)
                 plain[i][j] = 2;
-
         }
     return false;
-
 }
 
 bool play(int nrz, int nrholes, vector<vector<int> >& plain)
@@ -576,7 +554,7 @@ bool play(int nrz, int nrholes, vector<vector<int> >& plain)
         { 
        //   display(plain);          
        //    cout << " - human dead :(";
-        Sleep(2000);
+       //   Sleep(2000);
        //     map();
         }
         if (nrz == 0)
